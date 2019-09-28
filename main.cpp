@@ -17,8 +17,6 @@ public:
     // buffer indices
     int x1, y1, x2, y2;
 
-    u8 *palette;
-    
     i8 *dispX, *dispY;
 
     olc::Sprite *image;
@@ -87,22 +85,6 @@ public:
          }
     }
 
-
-    // Create a shade of colours in the palette from start to end
-    void Shade_Pal( int start, int end, int r1, int g1, int b1, int r2, int g2, int b2 )
-    {
-        int i;
-        float k;
-        for (i=0; i<=end-start; i++)
-        {
-            k = (float)i/(float)(end-start);
-            int r_index = (start+i) * 3;
-            palette[r_index]   = (u8)(r1+(r2-r1)*k);
-            palette[r_index+1] = (u8)(g1+(g2-g1)*k);
-            palette[r_index+2] = (u8)(b1+(b2-b1)*k);
-        }
-    }
-
     bool OnUserCreate() override 
     {
         HEIGHT = ScreenHeight();
@@ -111,14 +93,6 @@ public:
         half_width = WIDTH / 2;
 
         current_time = 0;
-
-        palette = new u8[256*3];
-
-        Shade_Pal( 0, 23, 0, 0, 0, 0, 0, 31 );
-        Shade_Pal( 24, 47, 0, 0, 31, 63, 0, 0 );
-        Shade_Pal( 48, 63, 63, 0, 0, 63, 63, 0 );
-        Shade_Pal( 64, 127, 63, 63, 0, 63, 63, 63 );
-        Shade_Pal( 128, 255, 63, 63, 63, 63, 63, 63 );
 
         dispX = new i8[WIDTH*2+HEIGHT*2];
         dispY = new i8[WIDTH*2+HEIGHT*2];
